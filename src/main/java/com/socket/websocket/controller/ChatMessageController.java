@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.socket.websocket.controller.dto.ChatResponse.ChatMessageResponses;
+import static com.socket.websocket.dto.ChatResponse.ChatMessageResponses;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +19,7 @@ public class ChatMessageController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ChatMessageResponses> getAll(@PathVariable Long id) {
-        return ResponseEntity.ok(null);
+        ChatMessageResponses response = chatReadService.getAllMessage(id);
+        return ResponseEntity.ok(response);
     }
 }
