@@ -1,3 +1,12 @@
+### ⚡ **How To Run**
+> `docker-compose up -d`
+- **start multi program**
+> `java -jar -Dserver.port=8080 app.jar`
+
+> `java -jar -Dserver.port=8081 app.jar`
+
+</br>
+
 ### 💻 **Architecture**
 
 ![image](https://user-images.githubusercontent.com/106054507/211760155-85710152-3533-4cee-9fab-84293a35ed68.png)
