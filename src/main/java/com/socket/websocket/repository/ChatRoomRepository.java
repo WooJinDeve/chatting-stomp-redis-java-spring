@@ -15,4 +15,8 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
     @Query("SELECT cr FROM ChatRoom cr WHERE cr.sender.id = :userId OR cr.receiver.id = :userId")
     Slice<ChatRoom> findAllBySenderIdOrReceiverIdOrderByUpdatedAt(Long userId, Pageable pageable);
 
+    default ChatRoom getById(Long id){
+        return findById(id)
+                .orElseThrow(IllegalArgumentException::new);
+    }
 }

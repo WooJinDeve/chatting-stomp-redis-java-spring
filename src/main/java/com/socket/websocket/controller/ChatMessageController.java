@@ -12,12 +12,12 @@ import static com.socket.websocket.dto.ChatResponse.ChatMessageResponses;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/chatroom")
+@RequestMapping("/api/v1/chatRooms")
 public class ChatMessageController {
 
     private final ChatReadService chatReadService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/messages")
     public ResponseEntity<ChatMessageResponses> getAll(@PathVariable Long id) {
         ChatMessageResponses response = chatReadService.getAllMessage(id);
         return ResponseEntity.ok(response);

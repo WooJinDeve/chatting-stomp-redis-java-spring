@@ -23,13 +23,13 @@ public class ChatRoomController {
     private final ChatReadService chatReadService;
     private final ChatWriteService chatWriteService;
 
-    @PostMapping(value = "/chatroom")
+    @PostMapping(value = "/chatRooms")
     public ResponseEntity<Void> create(@Sender Long sender, @Receiver Long receiver){
         chatWriteService.create(sender, receiver);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/chatroom")
+    @GetMapping(value = "/chatRooms")
     public ResponseEntity<ChatRoomResponses> getAll(@Sender Long id,
                                        Pageable pageable){
         ChatRoomResponses responses = chatReadService.getAllChatRoom(id, pageable);
