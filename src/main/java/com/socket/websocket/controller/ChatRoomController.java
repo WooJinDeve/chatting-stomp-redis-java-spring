@@ -1,12 +1,17 @@
 package com.socket.websocket.controller;
 
+import com.socket.websocket.resolver.Receiver;
+import com.socket.websocket.resolver.Sender;
 import com.socket.websocket.service.ChatReadService;
 import com.socket.websocket.service.ChatWriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.socket.websocket.dto.ChatResponse.ChatRoomResponses;
 
@@ -18,15 +23,14 @@ public class ChatRoomController {
     private final ChatReadService chatReadService;
     private final ChatWriteService chatWriteService;
 
-    @PostMapping(value = "/chatroom", headers = {"sender", "receiver"})
-    public ResponseEntity<Void> create(@RequestHeader(value = "sender") Long sender,
-                                       @RequestHeader(value = "receiver") Long receiver){
+    @PostMapping(value = "/chatroom")
+    public ResponseEntity<Void> create(@Sender Long sender, @Receiver Long receiver){
         chatWriteService.create(sender, receiver);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/chatroom", headers = "user")
-    public ResponseEntity<ChatRoomResponses> getAll(@RequestHeader("user") Long id,
+    @GetMapping(value = "/chatroom")
+    public ResponseEntity<ChatRoomResponses> getAll(@Sender Long id,
                                        Pageable pageable){
         ChatRoomResponses responses = chatReadService.getAllChatRoom(id, pageable);
         return ResponseEntity.ok(responses);
