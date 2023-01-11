@@ -13,6 +13,28 @@ import java.util.List;
 
 public class ChatResponse {
 
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class RecentChatMessageResponse implements Serializable {
+        private Long chatRoomId;
+        private Long chatId;
+        private Long userId;
+        private String message;
+        private LocalDateTime createdAt;
+
+        public static RecentChatMessageResponse of(ChatMessage chatMessage){
+            return RecentChatMessageResponse.builder()
+                    .chatRoomId(chatMessage.getChatRoom().getId())
+                    .chatId(chatMessage.getId())
+                    .userId(chatMessage.getSender().getId())
+                    .message(chatMessage.getMessage())
+                    .createdAt(chatMessage.getCreatedAt())
+                    .build();
+        }
+    }
+
 
     @Getter
     @Builder
@@ -27,7 +49,7 @@ public class ChatResponse {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class ChatMessageResponse implements Serializable {
+    public static class ChatMessageResponse {
         private Long chatId;
         private Long userId;
         private String message;

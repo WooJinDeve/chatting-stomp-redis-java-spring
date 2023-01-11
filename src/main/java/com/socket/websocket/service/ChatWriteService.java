@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.socket.websocket.dto.ChatResponse.ChatMessageResponse;
+import static com.socket.websocket.dto.ChatResponse.RecentChatMessageResponse;
 
 @Service
 @Transactional
@@ -20,6 +20,8 @@ public class ChatWriteService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final UserRepository userRepository;
+    private final RedisMessageBrokerService redisMessageBrokerService;
+
 
     public void create(Long senderId, Long receiverId) {
         User sender = userRepository.getById(senderId);
@@ -28,10 +30,10 @@ public class ChatWriteService {
         chatRoomRepository.save(ChatRoom.of(sender, receiver));
     }
 
-    public ChatMessageResponse saveMessage(Long chatRoomId, Long userId, String message) {
+    public void saveMessage(Long chatRoomId, Long userId, String message) {
         ChatRoom chatRoom = chatRoomRepository.getById(chatRoomId);
         User user = userRepository.getById(userId);
         ChatMessage chatMessage = chatMessageRepository.save(ChatMessage.of(user, chatRoom, message));
-        return ChatMessageResponse.of(chatMessage);
+        redisMessageBrokerService.sender(RecentChatMessageResponse.of(chatMessage));
     }
 }
