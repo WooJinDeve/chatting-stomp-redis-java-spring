@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test;
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.h2.Driver
+        show_sql: true
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+
+  redis:
+    host: localhost
+    port: 6379
